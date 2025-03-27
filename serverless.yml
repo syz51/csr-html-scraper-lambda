@@ -2,7 +2,7 @@ service: headless-html-resolver
 
 provider:
   name: aws
-  runtime: nodejs20.x
+  runtime: nodejs22.x
   region: ap-northeast-1
   memorySize: 1024
   timeout: 29
