@@ -136,9 +136,9 @@ exports.handler = async (event, context) => {
   }
 
   const cookies = requestData.cookies || [];
-  const timeout = requestData.timeout || 30000; // Default 30s timeout
+  const timeout = requestData.timeout || 29000; // Default 29s timeout
   const waitForSelector = requestData.selector; // New parameter for waiting
-  const waitForSelectorTimeout = requestData.selectorTimeout || 10000; // Optional custom timeout for selector
+  const waitForSelectorTimeout = requestData.selectorTimeout || 29000; // Optional custom timeout for selector
 
   const page = await pagePool.acquire();
 
@@ -180,14 +180,10 @@ exports.handler = async (event, context) => {
 
         // If a specific selector was provided, wait for it
         if (waitForSelector) {
-          try {
-            await page.waitForSelector(waitForSelector, {
-              visible: true,
-              timeout: waitForSelectorTimeout
-            });
-          } catch (selectorError) {
-            console.warn(`Selector wait timed out: ${selectorError.message}, proceeding anyway`);
-          }
+          await page.waitForSelector(waitForSelector, {
+            visible: true,
+            timeout: waitForSelectorTimeout
+          });
         }
 
         // Extract HTML content
