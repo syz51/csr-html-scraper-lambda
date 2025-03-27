@@ -137,6 +137,9 @@ exports.handler = async (event, context) => {
 
   const cookies = requestData.cookies || [];
   const timeout = requestData.timeout || 30000; // Default 30s timeout
+  const waitForSelector = requestData.selector; // New parameter for waiting
+  const waitForSelectorTimeout = requestData.selectorTimeout || 10000; // Optional custom timeout for selector
+
   const page = await pagePool.acquire();
 
   try {
@@ -167,11 +170,25 @@ exports.handler = async (event, context) => {
           }
         });
 
-        // Navigate with optimized settings
+        // Navigate with appropriate waiting strategy
         await page.goto(url, {
-          waitUntil: 'domcontentloaded', // Faster than networkidle2
-          timeout: timeout - 1000 // Leave 1s for content extraction
+          // If we have a selector to wait for, we can use domcontentloaded (faster)
+          // Otherwise use networkidle2 for better general compatibility
+          waitUntil: waitForSelector ? 'domcontentloaded' : 'networkidle2',
+          timeout: timeout
         });
+
+        // If a specific selector was provided, wait for it
+        if (waitForSelector) {
+          try {
+            await page.waitForSelector(waitForSelector, {
+              visible: true,
+              timeout: waitForSelectorTimeout
+            });
+          } catch (selectorError) {
+            console.warn(`Selector wait timed out: ${selectorError.message}, proceeding anyway`);
+          }
+        }
 
         // Extract HTML content
         return await page.content();
