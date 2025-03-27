@@ -172,9 +172,7 @@ exports.handler = async (event, context) => {
 
         // Navigate with appropriate waiting strategy
         await page.goto(url, {
-          // If we have a selector to wait for, we can use domcontentloaded (faster)
-          // Otherwise use networkidle2 for better general compatibility
-          waitUntil: waitForSelector ? 'domcontentloaded' : 'networkidle2',
+          waitUntil: 'domcontentloaded',
           timeout: timeout
         });
 
