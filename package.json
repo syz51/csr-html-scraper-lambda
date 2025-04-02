@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "@sparticuz/chromium": "^133.0.0",
-    "puppeteer-core": "^24.4.0"
+    "puppeteer-core": "^24.5.0"
   },
   "author": "github.com/syz51",
   "license": "Apache-2.0"
