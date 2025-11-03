@@ -11,8 +11,8 @@
     "client-side-rendered"
   ],
   "dependencies": {
-    "@sparticuz/chromium": "^133.0.0",
-    "puppeteer-core": "^24.5.0"
+    "@sparticuz/chromium": "141.0.0",
+    "puppeteer-core": "^24.7.2"
   },
   "author": "github.com/syz51",
   "license": "Apache-2.0"
